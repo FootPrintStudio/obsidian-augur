@@ -1,0 +1,438 @@
+.augur-settings-tabs {
+	display: flex;
+	gap: 0;
+	margin: 0.75rem 0 1rem;
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.augur-settings-tab {
+	padding: 0.45rem 0.9rem;
+	cursor: pointer;
+	color: var(--text-muted);
+	border-bottom: 2px solid transparent;
+	margin-bottom: -1px;
+}
+
+.augur-settings-tab.is-active {
+	color: var(--text-normal);
+	border-bottom-color: var(--interactive-accent);
+}
+
+.augur-readme-panel,
+.augur-guide-panel {
+	padding-top: 0.5rem;
+	max-height: 70vh;
+	overflow-y: auto;
+	padding-right: 0.5rem;
+}
+
+.augur-readme-panel h1,
+.augur-readme-panel h2,
+.augur-readme-panel h3,
+.augur-guide-panel h1,
+.augur-guide-panel h2,
+.augur-guide-panel h3 {
+	margin-top: 1.2em;
+}
+
+.augur-readme-panel pre,
+.augur-guide-panel pre {
+	overflow-x: auto;
+}
+
+.augur-guide-panel table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 0.5em 0;
+}
+
+.augur-guide-panel th,
+.augur-guide-panel td {
+	border: 1px solid var(--background-modifier-border);
+	padding: 0.35em 0.6em;
+	text-align: left;
+	vertical-align: top;
+}
+
+.augur-guide-panel th {
+	background: var(--background-secondary);
+}
+
+.augur-builder-modal-container,
+.augur-picker-modal-container {
+	width: min(920px, calc(100vw - 2rem));
+	max-width: calc(100vw - 2rem);
+}
+
+.augur-builder-modal-container {
+	width: min(680px, calc(100vw - 2rem));
+}
+
+.augur-builder-modal-container .modal-content,
+.augur-picker-modal-container .modal-content {
+	width: 100%;
+	max-width: 100%;
+	max-height: min(90vh, 900px);
+	box-sizing: border-box;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.augur-builder-modal,
+.augur-picker-modal {
+	padding: 0.5rem;
+	min-width: 0;
+	max-width: 100%;
+	box-sizing: border-box;
+	overflow-x: hidden;
+}
+
+.augur-builder-modal .setting-item,
+.augur-builder-source-card-body .setting-item {
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: 0.35rem 0.75rem;
+}
+
+.augur-builder-modal .setting-item-info,
+.augur-builder-source-card-body .setting-item-info {
+	flex: 1 1 140px;
+	min-width: 0;
+	margin-right: 0;
+}
+
+.augur-builder-modal .setting-item-control,
+.augur-builder-source-card-body .setting-item-control {
+	flex: 1 1 160px;
+	min-width: 0;
+	max-width: 100%;
+}
+
+.augur-builder-modal .setting-item-control input[type="text"],
+.augur-builder-source-card-body .setting-item-control input[type="text"] {
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+}
+
+.augur-builder-header h2,
+.augur-picker-header h2 {
+	margin: 0 0 0.35rem;
+}
+
+.augur-builder-header-desc,
+.augur-picker-header-desc {
+	margin: 0 0 0.5rem;
+	color: var(--text-muted);
+}
+
+.augur-builder-header-note {
+	margin: 0 0 1rem;
+	padding: 0.5rem 0.65rem;
+	border-radius: 6px;
+	font-size: 0.85rem;
+	color: var(--text-muted);
+	background: rgba(var(--color-yellow-rgb), 0.1);
+	border: 1px solid rgba(var(--color-yellow-rgb), 0.25);
+}
+
+.augur-builder-section {
+	margin-bottom: 1.25rem;
+	padding: 0.75rem;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 8px;
+	background: var(--background-secondary);
+	min-width: 0;
+	max-width: 100%;
+	box-sizing: border-box;
+}
+
+.augur-builder-section-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	flex-wrap: wrap;
+	margin-bottom: 0.5rem;
+}
+
+.augur-builder-section-title {
+	font-weight: 600;
+}
+
+.augur-builder-quick-add {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem;
+}
+
+.augur-builder-pill {
+	padding: 0.35rem 0.75rem;
+	border-radius: 999px;
+	border: 1px solid var(--background-modifier-border);
+	background: var(--interactive-normal);
+	cursor: pointer;
+	font-size: 0.85rem;
+}
+
+.augur-builder-pill:hover,
+.augur-builder-pill.is-active {
+	background: var(--interactive-hover);
+}
+
+.augur-builder-pill.is-active {
+	border-color: var(--interactive-accent);
+}
+
+.augur-builder-sources-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	min-height: 4rem;
+}
+
+.augur-builder-sources-list.is-drop-target {
+	outline: 2px dashed var(--interactive-accent);
+	outline-offset: 4px;
+}
+
+.augur-builder-empty-state {
+	text-align: center;
+	padding: 1.5rem;
+	color: var(--text-muted);
+}
+
+.augur-builder-source-card {
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 8px;
+	background: var(--background-primary);
+	padding: 0.5rem;
+	min-width: 0;
+	max-width: 100%;
+	box-sizing: border-box;
+}
+
+.augur-builder-source-card.is-dragging {
+	opacity: 0.55;
+}
+
+.augur-builder-source-card.is-drag-over {
+	outline: 2px dashed var(--interactive-accent);
+}
+
+.augur-builder-source-card-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+	margin-bottom: 0.35rem;
+}
+
+.augur-builder-source-title {
+	font-weight: 600;
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.augur-builder-source-actions {
+	display: flex;
+	gap: 0.25rem;
+	flex-shrink: 0;
+}
+
+.augur-builder-icon-btn {
+	padding: 0.15rem 0.45rem;
+	border-radius: 4px;
+	border: none;
+	background: var(--interactive-normal);
+	cursor: pointer;
+}
+
+.augur-builder-icon-btn:hover {
+	background: var(--interactive-hover);
+}
+
+.augur-builder-preview-box {
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 6px;
+	background: var(--background-primary);
+	overflow: hidden;
+}
+
+.augur-builder-preview-lang {
+	padding: 0.35rem 0.65rem;
+	font-size: 0.75rem;
+	color: var(--text-faint);
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.augur-builder-preview-code {
+	margin: 0;
+	padding: 0.75rem;
+	font-size: 0.8rem;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	max-height: 220px;
+	overflow-y: auto;
+}
+
+.augur-builder-copy-btn,
+.augur-builder-cancel-btn,
+.augur-builder-insert-btn {
+	padding: 0.45rem 0.9rem;
+	border-radius: 4px;
+	border: none;
+	cursor: pointer;
+}
+
+.augur-builder-copy-btn {
+	padding: 0.35rem 0.65rem;
+	background: var(--interactive-normal);
+	font-size: 0.85rem;
+}
+
+.augur-builder-footer,
+.augur-picker-footer {
+	display: flex;
+	justify-content: flex-end;
+	gap: 0.5rem;
+	margin-top: 0.75rem;
+}
+
+.augur-builder-cancel-btn {
+	background: var(--interactive-normal);
+}
+
+.augur-builder-insert-btn {
+	background: var(--interactive-accent);
+	color: var(--text-on-accent);
+}
+
+.augur-picker-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.65rem;
+	align-items: center;
+	margin: 0.75rem 0;
+}
+
+.augur-picker-mode {
+	display: flex;
+	gap: 0.35rem;
+}
+
+.augur-picker-search {
+	flex: 1 1 180px;
+	min-width: 0;
+}
+
+.augur-picker-recursive {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+}
+
+.augur-picker-crumb {
+	margin-bottom: 0.65rem;
+	color: var(--text-muted);
+}
+
+.augur-picker-crumb-btn {
+	background: none;
+	border: none;
+	color: var(--text-accent);
+	cursor: pointer;
+	padding: 0;
+}
+
+.augur-picker-body {
+	display: grid;
+	grid-template-columns: minmax(160px, 0.9fr) minmax(220px, 1.2fr) minmax(180px, 1fr);
+	gap: 0.75rem;
+	min-height: 360px;
+}
+
+.augur-picker-tree,
+.augur-picker-list,
+.augur-picker-preview {
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 8px;
+	background: var(--background-secondary);
+	min-width: 0;
+	overflow: auto;
+}
+
+.augur-picker-pane-title {
+	padding: 0.45rem 0.65rem;
+	font-weight: 600;
+	border-bottom: 1px solid var(--background-modifier-border);
+	background: var(--background-primary);
+	position: sticky;
+	top: 0;
+}
+
+.augur-picker-tree-row,
+.augur-picker-item {
+	padding: 0.3rem 0.55rem;
+	cursor: pointer;
+	overflow-wrap: anywhere;
+}
+
+.augur-picker-tree-row:hover,
+.augur-picker-item:hover {
+	background: var(--background-modifier-hover);
+}
+
+.augur-picker-tree-row.is-current,
+.augur-picker-item.is-selected {
+	background: var(--background-modifier-active-hover);
+	font-weight: 600;
+}
+
+.augur-picker-item.is-folder {
+	font-weight: 600;
+}
+
+.augur-picker-empty,
+.augur-picker-preview-body {
+	padding: 0.65rem;
+}
+
+.augur-picker-thumb {
+	max-width: 100%;
+	border-radius: 6px;
+}
+
+.augur-picker-preview-body pre {
+	white-space: pre-wrap;
+	font-size: 0.8rem;
+	max-height: 280px;
+	overflow: auto;
+}
+
+.augur-suggest-item {
+	padding: 0.2rem 0;
+}
+
+.augur-suggest-label {
+	font-weight: 600;
+}
+
+.augur-suggest-detail {
+	font-size: 0.8rem;
+	color: var(--text-muted);
+}
+
+@media (max-width: 720px) {
+	.augur-picker-body {
+		grid-template-columns: 1fr;
+		min-height: 0;
+	}
+
+	.augur-picker-tree,
+	.augur-picker-list,
+	.augur-picker-preview {
+		max-height: 220px;
+	}
+}

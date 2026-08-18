@@ -1,0 +1,10 @@
+{
+	"id": "augur",
+	"name": "Augur",
+	"version": "0.1.0",
+	"minAppVersion": "1.5.0",
+	"description": "Authoring companion for Grimoire, Oculus, Visage, and Lexicon Nexus — builders, path picking, and syntax suggestions.",
+	"author": "FootPrintStudio",
+	"authorUrl": "https://github.com/FootPrintStudio",
+	"isDesktopOnly": false
+}
