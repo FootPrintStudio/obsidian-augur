@@ -22,7 +22,7 @@ Folder paths ending in `/` are recursive. That trailing slash is the Oculus recu
 
 Command palette: **Insert Visage tabs**.
 
-Pastes a **4-backtick** outer fence so tab bodies can contain ` ``` ` code. Position, align, and default titles come from Visage settings when Visage is enabled.
+Pastes a **4-backtick** outer fence so tab bodies can contain ` ``` ` code. Position, align, and default titles come from Visage settings when Visage is enabled. The template omits `OPTIONS:` / `TABS:` — those headers are parse errors in Visage.
 
 ---
 
@@ -46,7 +46,7 @@ This replaces Path Picker for Oculus authoring. It does not browse the OS filesy
 |-------|-------------|
 | `` `q= …` `` | Grimoire functions, `file.*`, current-note frontmatter keys, `AS` styles |
 | ` ```oculus ` | `VIEW` `FILTER` `LOCAL` `URL` `SEARCH`, view/filter values, vault media paths |
-| `v-tabs` fence | `OPTIONS` `TABS` `POSITION` `ALIGN` `TAB` and enums |
+| `v-tabs` fence | `POSITION` `ALIGN` `TAB` and enums |
 | List `` `v-card` `` | `{span=…}` `{layout=…}` `{tone=…}` |
 | Lexicon dictionary folder | Header / alias templates and requirement flags |
 | YAML `lexicon-context:` | Paths under the dictionary folder |

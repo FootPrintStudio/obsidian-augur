@@ -31,7 +31,7 @@ export const OCULUS_KEYS = ["VIEW:", "FILTER:", "LOCAL:", "URL:", "SEARCH:"];
 export const OCULUS_VIEWS = ["grid", "thumbnails", "carousel", "masonry-h", "masonry-v"];
 export const OCULUS_FILTERS = ["all", "images", "video"];
 
-export const VTABS_KEYS = ["OPTIONS:", "TABS:", "POSITION:", "ALIGN:", "TAB:"];
+export const VTABS_KEYS = ["POSITION:", "ALIGN:", "TAB:"];
 export const VTABS_POSITIONS = ["top", "bottom", "left", "right"];
 export const VTABS_ALIGNS = ["left", "right", "center", "justify"];
 

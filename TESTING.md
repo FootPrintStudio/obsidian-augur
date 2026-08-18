@@ -7,7 +7,7 @@ Reload Obsidian after `bash build.sh`. Enable **Augur**. Companions can stay ena
 - [ ] **Insert Oculus gallery** opens the builder; Browse adds a Local path; Insert pastes an `oculus` fence
 - [ ] Drag a folder from the path browser onto the builder source list
 - [ ] Recursive checkbox writes a trailing `/`
-- [ ] **Insert Visage tabs** pastes a 4-backtick `v-tabs` block
+- [ ] **Insert Visage tabs** pastes a 4-backtick `v-tabs` block with `POSITION` / `ALIGN`, a blank line, then `TAB:` entries (no `OPTIONS:` / `TABS:`)
 - [ ] **Pick vault folder** / **Pick vault file** insert a vault-relative path at the cursor
 
 ## Suggestions

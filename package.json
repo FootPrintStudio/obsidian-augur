@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-augur",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Augur — authoring companion for Grimoire, Oculus, Visage, and Lexicon Nexus.",
 	"main": "main.js",
 	"type": "module",

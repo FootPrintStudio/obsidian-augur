@@ -7,10 +7,9 @@ export function formatVTabsTemplate(settings: {
 	defaultTabTitle2: string;
 }): string {
 	return [
-		"OPTIONS:",
 		`POSITION: ${settings.defaultPosition}`,
 		`ALIGN: ${settings.defaultAlign}`,
-		"TABS:",
+		"",
 		`TAB: ${settings.defaultTabTitle1}`,
 		"Content here.",
 		"",
