@@ -9,6 +9,7 @@ import {
 	MEDIA_FILTERS,
 	VIEW_TYPES,
 	type AugurSettings,
+	type GallerySortMode,
 	type GalleryViewType,
 	type MediaFilter,
 } from "../types";
@@ -33,7 +34,12 @@ interface SearchSource {
 	recursive: boolean;
 }
 
-type BuilderSource = LocalSource | SearchSource | UrlSource;
+interface XiewerSource {
+	kind: "xiewer";
+	query: string;
+}
+
+type BuilderSource = LocalSource | SearchSource | UrlSource | XiewerSource;
 
 const VIEW_LABELS: Record<GalleryViewType, string> = {
 	grid: "Grid",
@@ -49,11 +55,22 @@ const FILTER_LABELS: Record<MediaFilter, string> = {
 	all: "All media",
 };
 
+const SORT_OPTIONS: Array<{ value: "" | GallerySortMode; label: string }> = [
+	{ value: "", label: "Source order (default)" },
+	{ value: "name-asc", label: "name ASC" },
+	{ value: "name-dsc", label: "name DSC" },
+	{ value: "date-asc", label: "date ASC" },
+	{ value: "date-dsc", label: "date DSC" },
+	{ value: "random", label: "random" },
+];
+
 export class GalleryBuilderModal extends Modal {
 	private settings: AugurSettings;
 	private editor: Editor;
 	private view: GalleryViewType;
 	private filter: MediaFilter;
+	private limit = "";
+	private sort: "" | GallerySortMode = "";
 	private gridColumns = "auto";
 	private thumbnailColumns = "auto";
 	private carouselHeight = "";
@@ -115,11 +132,32 @@ export class GalleryBuilderModal extends Modal {
 
 		new Setting(layoutSection)
 			.setName("Filter")
-			.setDesc("Applies to LOCAL folder scans, SEARCH sources, and URL entries by detected media type.")
+			.setDesc("Applies to LOCAL folder scans, SEARCH, URL, and XIEWER sources by media type.")
 			.addDropdown((dropdown) => {
 				for (const filter of MEDIA_FILTERS) dropdown.addOption(filter, FILTER_LABELS[filter]);
 				dropdown.setValue(this.filter).onChange((value) => {
 					this.filter = value as MediaFilter;
+					this.refreshPreview();
+				});
+			});
+
+		new Setting(layoutSection)
+			.setName("Limit")
+			.setDesc("Optional. Caps each SEARCH and XIEWER source. Leave empty for no limit.")
+			.addText((text) =>
+				text.setPlaceholder("e.g. 24").setValue(this.limit).onChange((value) => {
+					this.limit = value.trim();
+					this.refreshPreview();
+				}),
+			);
+
+		new Setting(layoutSection)
+			.setName("Sort")
+			.setDesc("Optional. Reorders the whole merged gallery after sources resolve.")
+			.addDropdown((dropdown) => {
+				for (const option of SORT_OPTIONS) dropdown.addOption(option.value, option.label);
+				dropdown.setValue(this.sort).onChange((value) => {
+					this.sort = value as "" | GallerySortMode;
 					this.refreshPreview();
 				});
 			});
@@ -135,6 +173,9 @@ export class GalleryBuilderModal extends Modal {
 		quickAdd
 			.createEl("button", { cls: "augur-builder-pill", text: "+ Search" })
 			.addEventListener("click", () => this.addSearchSource());
+		quickAdd
+			.createEl("button", { cls: "augur-builder-pill", text: "+ Xiewer" })
+			.addEventListener("click", () => this.addXiewerSource());
 		quickAdd
 			.createEl("button", { cls: "augur-builder-pill", text: "+ URL" })
 			.addEventListener("click", () => this.addUrlSource());
@@ -307,6 +348,12 @@ export class GalleryBuilderModal extends Modal {
 		this.refreshPreview();
 	}
 
+	private addXiewerSource(query = ""): void {
+		this.sources.push({ kind: "xiewer", query });
+		this.renderSources();
+		this.refreshPreview();
+	}
+
 	private addPickedLocal(picked: PathPickResult): void {
 		this.addLocalSource(formatPickedPath(picked));
 	}
@@ -358,7 +405,7 @@ export class GalleryBuilderModal extends Modal {
 			const empty = container.createDiv({ cls: "augur-builder-empty-state" });
 			empty.createEl("h4", { text: "No sources yet" });
 			empty.createEl("p", {
-				text: "Add a vault path, browse the vault, drop a file here, or add a remote URL.",
+				text: "Add a vault path, CollectionXiewer query, browse the vault, drop a file here, or add a remote URL.",
 			});
 			return;
 		}
@@ -406,7 +453,13 @@ export class GalleryBuilderModal extends Modal {
 
 			const headerRow = card.createDiv({ cls: "augur-builder-source-card-header" });
 			const sourceLabel =
-				source.kind === "local" ? "Local" : source.kind === "search" ? "Search" : "URL";
+				source.kind === "local"
+					? "Local"
+					: source.kind === "search"
+						? "Search"
+						: source.kind === "xiewer"
+							? "Xiewer"
+							: "URL";
 			headerRow.createSpan({
 				cls: "augur-builder-source-title",
 				text: `${sourceLabel} #${index + 1}`,
@@ -478,6 +531,19 @@ export class GalleryBuilderModal extends Modal {
 							this.refreshPreview();
 						}),
 					);
+			} else if (source.kind === "xiewer") {
+				new Setting(body)
+					.setName("CollectionXiewer query")
+					.setDesc("Opaque search syntax passed to CollectionXiewer (app must be running).")
+					.addText((text) =>
+						text
+							.setPlaceholder("tag:hero kind:image")
+							.setValue(source.query)
+							.onChange((value) => {
+								source.query = value;
+								this.refreshPreview();
+							}),
+					);
 			} else {
 				const urlSetting = new Setting(body)
 					.setName("Media URL")
@@ -510,11 +576,21 @@ export class GalleryBuilderModal extends Modal {
 
 	private getSearchValidationError(): string | null {
 		for (const source of this.sources) {
-			if (source.kind !== "search") continue;
-			if (!source.path.trim() || !source.query.trim()) return "Complete or remove every Search source.";
-			if (!parseMediaTitleQueries(source.query)) {
-				return "Remove empty comma-separated values from every Search source.";
+			if (source.kind === "search") {
+				if (!source.path.trim() || !source.query.trim()) return "Complete or remove every Search source.";
+				if (!parseMediaTitleQueries(source.query)) {
+					return "Remove empty comma-separated values from every Search source.";
+				}
 			}
+			if (source.kind === "xiewer" && !source.query.trim()) {
+				return "Complete or remove every Xiewer source.";
+			}
+		}
+		if (this.limit && !/^\d+$/.test(this.limit)) {
+			return "Limit must be a positive integer or empty.";
+		}
+		if (this.limit && Number.parseInt(this.limit, 10) <= 0) {
+			return "Limit must be a positive integer or empty.";
 		}
 		return null;
 	}
@@ -541,6 +617,8 @@ export class GalleryBuilderModal extends Modal {
 					queries,
 					recursive: source.recursive,
 				});
+			} else if (source.kind === "xiewer" && source.query.trim()) {
+				sources.push({ kind: "xiewer", query: source.query.trim() });
 			} else if (source.kind === "url" && source.url) {
 				sources.push({
 					kind: "url",
@@ -549,10 +627,13 @@ export class GalleryBuilderModal extends Modal {
 				});
 			}
 		}
-		if (sources.length === 0) return "# Add at least one complete local, search, or URL source.";
+		if (sources.length === 0) return "# Add at least one complete local, search, xiewer, or URL source.";
+		const limit = this.limit ? Number.parseInt(this.limit, 10) : null;
 		return formatMediaGalleryBlock({
 			view: this.view,
 			filter: this.filter,
+			limit,
+			sort: this.sort || null,
 			gridColumns: this.view === "grid" ? this.gridColumns : undefined,
 			thumbnailColumns: this.view === "thumbnails" ? this.thumbnailColumns : undefined,
 			carouselHeightPx: this.view === "carousel" ? this.parseHeightInput(this.carouselHeight) : undefined,
@@ -581,9 +662,10 @@ export class GalleryBuilderModal extends Modal {
 		const searches = this.sources.filter(
 			(s) => s.kind === "search" && s.path.trim() && parseMediaTitleQueries(s.query),
 		);
+		const xiewers = this.sources.filter((s) => s.kind === "xiewer" && s.query.trim());
 		const urls = this.sources.filter((s) => s.kind === "url" && s.url.trim());
-		if (locals.length === 0 && searches.length === 0 && urls.length === 0) {
-			new Notice("Add at least one complete local, search, or URL source.");
+		if (locals.length === 0 && searches.length === 0 && xiewers.length === 0 && urls.length === 0) {
+			new Notice("Add at least one complete local, search, xiewer, or URL source.");
 			return;
 		}
 		const cursor = this.editor.getCursor();

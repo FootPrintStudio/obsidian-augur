@@ -27,9 +27,10 @@ export const GRIMOIRE_FILE_FIELDS = [
 
 export const GRIMOIRE_STYLES = ["card", "cards", "button", "buttons", "cards-code", "code", "inline", "list"];
 
-export const OCULUS_KEYS = ["VIEW:", "FILTER:", "LOCAL:", "URL:", "SEARCH:"];
+export const OCULUS_KEYS = ["VIEW:", "FILTER:", "LIMIT:", "SORT:", "LOCAL:", "URL:", "SEARCH:", "XIEWER:"];
 export const OCULUS_VIEWS = ["grid", "thumbnails", "carousel", "masonry-h", "masonry-v"];
 export const OCULUS_FILTERS = ["all", "images", "video"];
+export const OCULUS_SORTS = ["name ASC", "name DSC", "date ASC", "date DSC", "random"];
 
 export const VTABS_KEYS = ["POSITION:", "ALIGN:", "TAB:"];
 export const VTABS_POSITIONS = ["top", "bottom", "left", "right"];

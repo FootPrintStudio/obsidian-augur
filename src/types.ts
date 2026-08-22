@@ -1,5 +1,11 @@
 export type GalleryViewType = "grid" | "thumbnails" | "carousel" | "masonry-h" | "masonry-v";
 export type MediaFilter = "images" | "video" | "all";
+export type GallerySortMode =
+	| "name-asc"
+	| "name-dsc"
+	| "date-asc"
+	| "date-dsc"
+	| "random";
 export type TabPosition = "top" | "bottom" | "left" | "right";
 export type TabAlign = "left" | "right" | "center" | "justify";
 

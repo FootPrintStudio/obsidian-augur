@@ -10,6 +10,7 @@ import {
 	LEXICON_TEMPLATES,
 	OCULUS_FILTERS,
 	OCULUS_KEYS,
+	OCULUS_SORTS,
 	OCULUS_VIEWS,
 	VCARD_BAGS,
 	VTABS_ALIGNS,
@@ -73,6 +74,8 @@ export class AugurEditorSuggest extends EditorSuggest<AugurSuggestion> {
 			for (const view of OCULUS_VIEWS) push(view);
 		} else if (kind === "oculus-filter") {
 			for (const filter of OCULUS_FILTERS) push(filter);
+		} else if (kind === "oculus-sort") {
+			for (const sort of OCULUS_SORTS) push(sort);
 		} else if (kind === "oculus-path") {
 			items.push(...this.vaultPathSuggestions(query, true));
 		} else if (kind === "vtabs-key") {

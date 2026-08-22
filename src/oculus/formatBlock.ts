@@ -1,13 +1,14 @@
-import type { GalleryViewType, MediaFilter } from "../types";
+import type { GallerySortMode, GalleryViewType, MediaFilter } from "../types";
 
 const DEFAULT_COLUMN_OPTION = "auto";
 
-type MediaKey = "LOCAL" | "SEARCH" | "URL";
+type MediaKey = "LOCAL" | "SEARCH" | "URL" | "XIEWER";
 
 export type FormattedMediaSource =
 	| { kind: "local"; path: string; recursive?: boolean; caption?: string }
 	| { kind: "search"; path: string; recursive?: boolean; queries: string[] }
-	| { kind: "url"; url: string; caption?: string };
+	| { kind: "url"; url: string; caption?: string }
+	| { kind: "xiewer"; query: string };
 
 function formatViewLine(options: {
 	view: GalleryViewType;
@@ -46,6 +47,12 @@ function formatViewLine(options: {
 	return `VIEW: ${options.view}`;
 }
 
+function formatSortLine(sort: GallerySortMode): string {
+	if (sort === "random") return "SORT: random";
+	const [field, dir] = sort.split("-") as ["name" | "date", "asc" | "dsc"];
+	return `SORT: ${field} ${dir.toUpperCase()}`;
+}
+
 function formatSourceValue(source: FormattedMediaSource): string {
 	if (source.kind === "local") {
 		let path = source.path.replace(/\/+$/, "");
@@ -61,18 +68,26 @@ function formatSourceValue(source: FormattedMediaSource): string {
 		}
 		return `${path} | ${queries.join(", ")}`;
 	}
+	if (source.kind === "xiewer") {
+		const query = source.query.trim();
+		if (!query) throw new Error("XIEWER sources require a non-empty query.");
+		return query;
+	}
 	return source.caption ? `${source.url} | ${source.caption}` : source.url;
 }
 
 function sourceKey(kind: FormattedMediaSource["kind"]): MediaKey {
 	if (kind === "local") return "LOCAL";
 	if (kind === "search") return "SEARCH";
+	if (kind === "xiewer") return "XIEWER";
 	return "URL";
 }
 
 export function formatMediaGalleryBlock(options: {
 	view: GalleryViewType;
 	filter: MediaFilter;
+	limit?: number | null;
+	sort?: GallerySortMode | null;
 	gridColumns?: string;
 	thumbnailColumns?: string;
 	carouselHeightPx?: number | null;
@@ -82,6 +97,8 @@ export function formatMediaGalleryBlock(options: {
 	sources: FormattedMediaSource[];
 }): string {
 	const lines: string[] = [formatViewLine(options), `FILTER: ${options.filter}`];
+	if (options.limit != null) lines.push(`LIMIT: ${options.limit}`);
+	if (options.sort) lines.push(formatSortLine(options.sort));
 	let index = 0;
 	const sources = options.sources;
 	while (index < sources.length) {

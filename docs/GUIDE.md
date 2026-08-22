@@ -10,8 +10,8 @@ Command palette: **Insert Oculus gallery**.
 
 The builder has three sections:
 
-1. **Layout** — view (`grid`, `thumbnails`, `carousel`, `masonry-h`, `masonry-v`) and filter (`all`, `images`, `video`). Defaults come from Oculus settings when Oculus is enabled.
-2. **Media sources** — Local, Search, URL, or YouTube cards. Drag cards to reorder. **Browse vault** or the per-card **Browse** button opens the path browser. Drop a vault file/folder onto the source list to add a Local card.
+1. **Layout** — view (`grid`, `thumbnails`, `carousel`, `masonry-h`, `masonry-v`), filter (`all`, `images`, `video`), optional **Limit** (SEARCH/XIEWER), and optional **Sort**. Defaults come from Oculus settings when Oculus is enabled.
+2. **Media sources** — Local, Search, Xiewer, URL, or YouTube cards. Drag cards to reorder. **Browse vault** or the per-card **Browse** button opens the path browser. Drop a vault file/folder onto the source list to add a Local card.
 3. **Block preview** — live `oculus` body. Copy or **Insert at cursor**.
 
 Folder paths ending in `/` are recursive. That trailing slash is the Oculus recursion flag.
@@ -45,7 +45,7 @@ This replaces Path Picker for Oculus authoring. It does not browse the OS filesy
 | Where | Suggestions |
 |-------|-------------|
 | `` `q= …` `` | Grimoire functions, `file.*`, current-note frontmatter keys, `AS` styles |
-| ` ```oculus ` | `VIEW` `FILTER` `LOCAL` `URL` `SEARCH`, view/filter values, vault media paths |
+| ` ```oculus ` | `VIEW` `FILTER` `LIMIT` `SORT` `LOCAL` `URL` `SEARCH` `XIEWER`, view/filter/sort values, vault media paths |
 | `v-tabs` fence | `POSITION` `ALIGN` `TAB` and enums |
 | List `` `v-card` `` | `{span=…}` `{layout=…}` `{tone=…}` |
 | Lexicon dictionary folder | Header / alias templates and requirement flags |

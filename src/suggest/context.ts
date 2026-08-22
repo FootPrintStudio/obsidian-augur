@@ -5,6 +5,7 @@ export type SuggestKind =
 	| "oculus-key"
 	| "oculus-view"
 	| "oculus-filter"
+	| "oculus-sort"
 	| "oculus-path"
 	| "vtabs-key"
 	| "vtabs-position"
@@ -114,6 +115,10 @@ export function detectSuggestTrigger(
 		if (kv?.key === "FILTER") {
 			const q = queryFrom(line, cursor.ch);
 			return { kind: "oculus-filter", start: { line: cursor.line, ch: q.startCh }, end: cursor, query: q.query };
+		}
+		if (kv?.key === "SORT") {
+			const q = queryFrom(line, cursor.ch);
+			return { kind: "oculus-sort", start: { line: cursor.line, ch: q.startCh }, end: cursor, query: q.query };
 		}
 		if (kv?.key === "LOCAL" || kv?.key === "SEARCH" || isIndented(line)) {
 			const q = queryFrom(line, cursor.ch);
