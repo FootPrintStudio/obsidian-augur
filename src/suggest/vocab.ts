@@ -25,7 +25,18 @@ export const GRIMOIRE_FILE_FIELDS = [
 	"file.tags",
 ];
 
-export const GRIMOIRE_STYLES = ["card", "cards", "button", "buttons", "cards-code", "code", "inline", "list"];
+export const GRIMOIRE_STYLES = [
+	"card",
+	"cards",
+	"tag",
+	"tags",
+	"button",
+	"buttons",
+	"cards-code",
+	"code",
+	"inline",
+	"list",
+];
 
 export const OCULUS_KEYS = ["VIEW:", "FILTER:", "LIMIT:", "SORT:", "LOCAL:", "URL:", "SEARCH:", "XIEWER:"];
 export const OCULUS_VIEWS = ["grid", "thumbnails", "carousel", "masonry-h", "masonry-v"];

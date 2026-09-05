@@ -13,7 +13,7 @@ Repository: [FootPrintStudio/obsidian-augur](https://github.com/FootPrintStudio/
 | **Pick vault folder** | Insert a vault-relative folder path (optional trailing `/`) |
 | **Pick vault file** | Insert a vault-relative file path |
 
-As-you-type suggestions fire inside `q=` queries, `oculus` / `v-tabs` fences, `v-card` markers, Lexicon dictionary files, and `lexicon-context` YAML.
+As-you-type suggestions fire inside `q=` queries (including Grimoire `AS` styles such as `card` and `tag`), `oculus` / `v-tabs` fences, `v-card` markers, Lexicon dictionary files, and `lexicon-context` YAML.
 
 ## Install (BRAT)
 

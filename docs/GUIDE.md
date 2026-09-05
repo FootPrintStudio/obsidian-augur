@@ -44,7 +44,7 @@ This replaces Path Picker for Oculus authoring. It does not browse the OS filesy
 
 | Where | Suggestions |
 |-------|-------------|
-| `` `q= …` `` | Grimoire functions, `file.*`, current-note frontmatter keys, `AS` styles |
+| `` `q= …` `` | Grimoire functions, `file.*`, current-note frontmatter keys, `AS` styles (`card`, `tag`, `button`, `cards-code`, `inline`, `list`) |
 | ` ```oculus ` | `VIEW` `FILTER` `LIMIT` `SORT` `LOCAL` `URL` `SEARCH` `XIEWER`, view/filter/sort values, vault media paths |
 | `v-tabs` fence | `POSITION` `ALIGN` `TAB` and enums |
 | List `` `v-card` `` | `{span=…}` `{layout=…}` `{tone=…}` |
