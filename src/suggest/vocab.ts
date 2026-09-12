@@ -11,6 +11,8 @@ export const GRIMOIRE_FUNCTIONS = [
 	{ label: "durationformat()", insert: "durationformat()", detail: "dur, format?" },
 	{ label: "age()", insert: "age()", detail: "date, format?" },
 	{ label: "numberformat()", insert: "numberformat()", detail: "n, pattern" },
+	{ label: "conv()", insert: "conv()", detail: "value, fromUnit, toUnit" },
+	{ label: "inRange()", insert: "inRange()", detail: "value, low, high" },
 	{ label: "date()", insert: "date()", detail: "string | now | today" },
 	{ label: "dur()", insert: "dur()", detail: "n, unit or text" },
 	{ label: "length()", insert: "length()", detail: "value" },
