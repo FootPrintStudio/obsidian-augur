@@ -16,6 +16,7 @@ import {
 	VTABS_ALIGNS,
 	VTABS_KEYS,
 	VTABS_POSITIONS,
+	VTABS_TONE_BAGS,
 } from "./vocab";
 
 export interface AugurSuggestion {
@@ -84,6 +85,8 @@ export class AugurEditorSuggest extends EditorSuggest<AugurSuggestion> {
 			for (const value of VTABS_POSITIONS) push(value);
 		} else if (kind === "vtabs-align") {
 			for (const value of VTABS_ALIGNS) push(value);
+		} else if (kind === "vtabs-tab-tone") {
+			for (const bag of VTABS_TONE_BAGS) push(bag.label, bag.insert);
 		} else if (kind === "vcard") {
 			push("`v-card`", "v-card", "card marker");
 			for (const bag of VCARD_BAGS) push(bag.label, bag.insert, bag.detail);

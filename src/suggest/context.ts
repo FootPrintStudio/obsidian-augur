@@ -10,6 +10,7 @@ export type SuggestKind =
 	| "vtabs-key"
 	| "vtabs-position"
 	| "vtabs-align"
+	| "vtabs-tab-tone"
 	| "vcard"
 	| "lexicon-dict"
 	| "lexicon-context";
@@ -137,6 +138,10 @@ export function detectSuggestTrigger(
 		if (kv?.key === "ALIGN") {
 			const q = queryFrom(line, cursor.ch);
 			return { kind: "vtabs-align", start: { line: cursor.line, ch: q.startCh }, end: cursor, query: q.query };
+		}
+		if (kv?.key === "TAB") {
+			const q = queryFrom(line, cursor.ch);
+			return { kind: "vtabs-tab-tone", start: { line: cursor.line, ch: q.startCh }, end: cursor, query: q.query };
 		}
 		const q = queryFrom(line, cursor.ch);
 		return { kind: "vtabs-key", start: { line: cursor.line, ch: q.startCh }, end: cursor, query: q.query };

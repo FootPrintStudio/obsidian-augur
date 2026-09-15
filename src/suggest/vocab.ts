@@ -77,6 +77,16 @@ export const VCARD_BAGS = [
 	{ label: "{tone=danger}", insert: "{tone=danger}" },
 	{ label: "{tone=success}", insert: "{tone=success}" },
 	{ label: "{tone=neutral}", insert: "{tone=neutral}" },
+	{ label: "{border=none}", insert: "{border=none}", detail: "Borderless card" },
+];
+
+export const VTABS_TONE_BAGS = [
+	{ label: "{tone=note}", insert: "{tone=note}" },
+	{ label: "{tone=tip}", insert: "{tone=tip}" },
+	{ label: "{tone=warning}", insert: "{tone=warning}" },
+	{ label: "{tone=danger}", insert: "{tone=danger}" },
+	{ label: "{tone=success}", insert: "{tone=success}" },
+	{ label: "{tone=neutral}", insert: "{tone=neutral}" },
 ];
 
 export const LEXICON_FLAGS = [
