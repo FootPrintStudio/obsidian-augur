@@ -14,7 +14,7 @@ Reload Obsidian after `bash build.sh`. Enable **Augur**. Companions can stay ena
 
 - [ ] Inside `` `q= ` ``, functions and frontmatter keys appear
 - [ ] Inside an `oculus` fence, `VIEW` / `LOCAL` and media paths appear
-- [ ] After `` `v-card` ``, span/layout/tone bags appear
+- [ ] After `` `v-card` ``, span/rows/layout/tone bags appear
 - [ ] In a Dictionary file, flags and `# Term {Plural}` appear
 - [ ] Under `lexicon-context:` in YAML, dictionary paths appear
 

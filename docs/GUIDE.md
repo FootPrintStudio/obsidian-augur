@@ -47,7 +47,7 @@ This replaces Path Picker for Oculus authoring. It does not browse the OS filesy
 | `` `q= …` `` | Grimoire functions, `file.*`, current-note frontmatter keys, `AS` styles (`card`, `tag`, `button`, `cards-code`, `inline`, `list`) |
 | ` ```oculus ` | `VIEW` `FILTER` `LIMIT` `SORT` `LOCAL` `URL` `SEARCH` `XIEWER`, view/filter/sort values, vault media paths |
 | `v-tabs` fence | `POSITION` `ALIGN` `TAB` and enums |
-| List `` `v-card` `` | `{span=…}` `{layout=…}` `{tone=…}` |
+| List `` `v-card` `` | `{span=…}` `{rows=…}` `{layout=…}` `{tone=…}` `{border=…}` |
 | Lexicon dictionary folder | Header / alias templates and requirement flags |
 | YAML `lexicon-context:` | Paths under the dictionary folder |
 
