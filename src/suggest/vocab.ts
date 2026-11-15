@@ -67,8 +67,6 @@ export const XIEWER_CLAUSES = [
 	{ label: "principal:", insert: "principal:", detail: "Principal tag on a collection" },
 	{ label: "folder:", insert: 'folder:"', detail: "Under a watch-folder root" },
 	{ label: "name:", insert: "name:", detail: "Path/filename glob (* ?)" },
-	{ label: "wiki:", insert: 'wiki:"', detail: "Media wiki full-text" },
-	{ label: "wiki:empty", insert: "wiki:empty", detail: "Media with empty wiki" },
 	{ label: "untagged:", insert: "untagged:", detail: "Media with no tags" },
 	{ label: "kind:image", insert: "kind:image", detail: "Still images" },
 	{ label: "kind:motion", insert: "kind:motion", detail: "GIF / APNG motion" },

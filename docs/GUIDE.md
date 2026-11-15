@@ -48,7 +48,7 @@ This replaces Path Picker for Oculus authoring. It does not browse the OS filesy
 | `` `q= date("…` `` | Calendar ids / `id:year-month-day` (or `id:year-day`) forms from `epochs.api.listCalendars()` |
 | YAML `calendar:` / `cal:` | Epochs calendar ids (fantasy date frontmatter) |
 | ` ```oculus ` | `VIEW` `FILTER` `LIMIT` `SORT` `LOCAL` `URL` `SEARCH` `XIEWER`, view/filter/sort values, vault media paths |
-| `XIEWER:` (and indented XIEWER lines) | CollectionXiewer search operators: `tag:`, `-tag:`, `kind:image\|motion\|video`, `collection:`, `suggested:`, `principal:`, `folder:`, `name:`, `wiki:`, `wiki:empty`, `untagged:`, `AND`/`OR`/`NOT`, `@subject` |
+| `XIEWER:` (and indented XIEWER lines) | CollectionXiewer search operators: `tag:`, `-tag:`, `kind:image\|motion\|video`, `collection:`, `suggested:`, `principal:`, `folder:`, `name:`, `untagged:`, `AND`/`OR`/`NOT`, `@subject` (no `wiki:` — removed with Xiewer wiki) |
 | `v-tabs` fence | `POSITION` `ALIGN` `TAB` and enums |
 | List `` `v-card` `` | `{span=…}` `{rows=…}` `{layout=…}` `{tone=…}` `{border=…}` |
 | Lexicon dictionary folder | Header / alias templates and requirement flags |
