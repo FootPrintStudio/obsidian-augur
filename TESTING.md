@@ -13,6 +13,7 @@ Reload Obsidian after `bash build.sh`. Enable **Augur**. Companions can stay ena
 ## Suggestions
 
 - [ ] Inside `` `q= ` ``, functions and frontmatter keys appear
+- [ ] Accepting **any()** / **choice()** / **contains()** / **econtains()** / **exists()** inserts brace-branch skeletons (`{ifTrue, ifFalse}`); **inRange()** still inserts the ternary form
 - [ ] With Epochs enabled and calendars indexed, `` `q= ` `` offers `date("id:")` / calendar id snippets
 - [ ] Inside `` `q= date(" ` ``, calendar ids / `id:year-…` forms appear (empty when Epochs is off)
 - [ ] YAML `calendar:` / `cal:` under a fantasy date object suggests Epochs calendar ids
