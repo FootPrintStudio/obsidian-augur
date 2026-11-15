@@ -12,10 +12,34 @@ export const OCULUS_ID = "oculus";
 export const VISAGE_ID = "visage";
 export const GRIMOIRE_ID = "grimoire";
 export const LEXICON_ID = "lexicon-nexus";
+export const EPOCHS_ID = "epochs";
 export const MEDIA_EXTENDED_ID = "media-extended";
 
+export interface EpochsCalendarSuggest {
+	id: string;
+	name: string;
+	path: string;
+	hasMonths: boolean;
+}
+
 type AppWithPlugins = App & {
-	plugins: { enabledPlugins: Set<string>; plugins: Record<string, Plugin & { settings?: Record<string, unknown> }> };
+	plugins: {
+		enabledPlugins: Set<string>;
+		plugins: Record<
+			string,
+			Plugin & {
+				settings?: Record<string, unknown>;
+				api?: {
+					listCalendars?: () => Array<{
+						id?: unknown;
+						name?: unknown;
+						path?: unknown;
+						months?: unknown;
+					}>;
+				};
+			}
+		>;
+	};
 };
 
 function pluginsApi(app: App): AppWithPlugins["plugins"] | null {
@@ -96,4 +120,27 @@ export function frontmatterKeys(app: App, file: TFile | null): string[] {
 	const fm = cache?.frontmatter;
 	if (!fm) return [];
 	return Object.keys(fm).filter((key) => key !== "position");
+}
+
+/**
+ * Live calendar ids from Epochs when the plugin is enabled and exposes listCalendars.
+ * Empty when Epochs is unloaded — do not invent placeholder ids.
+ */
+export function listEpochsCalendars(app: App): EpochsCalendarSuggest[] {
+	if (!isPluginEnabled(app, EPOCHS_ID)) return [];
+	const api = pluginsApi(app)?.plugins[EPOCHS_ID]?.api;
+	const listed = api?.listCalendars?.();
+	if (!Array.isArray(listed)) return [];
+	const out: EpochsCalendarSuggest[] = [];
+	for (const cal of listed) {
+		const id = typeof cal.id === "string" ? cal.id.trim() : "";
+		if (!id) continue;
+		out.push({
+			id,
+			name: typeof cal.name === "string" && cal.name.trim() ? cal.name : id,
+			path: typeof cal.path === "string" ? cal.path : "",
+			hasMonths: Array.isArray(cal.months) && cal.months.length > 0,
+		});
+	}
+	return out;
 }
