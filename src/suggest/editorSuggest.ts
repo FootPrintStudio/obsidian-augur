@@ -4,6 +4,7 @@ import { MEDIA_EXTENSIONS, type AugurSettings } from "../types";
 import { detectSuggestTrigger, type SuggestKind } from "./context";
 import {
 	GRIMOIRE_FILE_FIELDS,
+	GRIMOIRE_CROSS_NOTE,
 	GRIMOIRE_FUNCTIONS,
 	GRIMOIRE_STYLES,
 	LEXICON_FLAGS,
@@ -76,6 +77,7 @@ export class AugurEditorSuggest extends EditorSuggest<AugurSuggestion> {
 		if (kind === "grimoire") {
 			this.pushEpochsCalendars(push, "snippet");
 			for (const fn of GRIMOIRE_FUNCTIONS) push(fn.label, fn.insert, fn.detail);
+			for (const snip of GRIMOIRE_CROSS_NOTE) push(snip.label, snip.insert, snip.detail);
 			for (const field of GRIMOIRE_FILE_FIELDS) push(field);
 			for (const key of frontmatterKeys(this.app, context.file)) push(key);
 			if (/as\s*$/i.test(context.editor.getLine(context.start.line).slice(0, context.end.ch)) || /^as/i.test(query)) {
