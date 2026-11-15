@@ -12,7 +12,11 @@ export const GRIMOIRE_FUNCTIONS = [
 	{ label: "age()", insert: "age()", detail: "date, format?" },
 	{ label: "numberformat()", insert: "numberformat()", detail: "n, pattern" },
 	{ label: "conv()", insert: "conv()", detail: "value, fromUnit, toUnit" },
-	{ label: "inRange()", insert: "inRange()", detail: "value, low, high" },
+	{
+		label: "inRange()",
+		insert: "inRange({value, low, high}, {below, inBand, above})",
+		detail: "{value, low, high}, {below, in, above}",
+	},
 	{ label: "date()", insert: "date()", detail: "string | now | today" },
 	{ label: "dur()", insert: "dur()", detail: "n, unit or text" },
 	{ label: "length()", insert: "length()", detail: "value" },
