@@ -1,6 +1,6 @@
 # Augur — Guide
 
-Augur is the authoring companion for **Grimoire**, **Oculus**, **Visage**, and **Lexicon Nexus**. Those plugins still render the results. Augur inserts blocks, picks vault paths, and suggests syntax while you type.
+Augur is the authoring companion for **Grimoire**, **Oculus**, **Visage**, **Lexicon Nexus**, and (for suggestions) **Epochs** / **CollectionXiewer** query vocabulary. Those plugins still render the results. Augur inserts blocks, picks vault paths, and suggests syntax while you type.
 
 ---
 
@@ -44,14 +44,32 @@ This replaces Path Picker for Oculus authoring. It does not browse the OS filesy
 
 | Where | Suggestions |
 |-------|-------------|
-| `` `q= …` `` | Grimoire functions, `file.*`, current-note frontmatter keys, `AS` styles (`card`, `tag`, `button`, `cards-code`, `inline`, `list`) |
+| `` `q= …` `` | Grimoire functions, `file.*`, current-note frontmatter keys, `AS` styles (`card`, `tag`, `button`, `cards-code`, `inline`, `list`); live **Epochs calendar ids** as `date("id:")` snippets when Epochs is enabled |
+| `` `q= date("…` `` | Calendar ids / `id:year-month-day` (or `id:year-day`) forms from `epochs.api.listCalendars()` |
+| YAML `calendar:` / `cal:` | Epochs calendar ids (fantasy date frontmatter) |
 | ` ```oculus ` | `VIEW` `FILTER` `LIMIT` `SORT` `LOCAL` `URL` `SEARCH` `XIEWER`, view/filter/sort values, vault media paths |
+| `XIEWER:` (and indented XIEWER lines) | CollectionXiewer search operators: `tag:`, `-tag:`, `kind:image\|motion\|video`, `collection:`, `suggested:`, `principal:`, `folder:`, `name:`, `wiki:`, `wiki:empty`, `untagged:`, `AND`/`OR`/`NOT`, `@subject` |
 | `v-tabs` fence | `POSITION` `ALIGN` `TAB` and enums |
 | List `` `v-card` `` | `{span=…}` `{rows=…}` `{layout=…}` `{tone=…}` `{border=…}` |
 | Lexicon dictionary folder | Header / alias templates and requirement flags |
 | YAML `lexicon-context:` | Paths under the dictionary folder |
 
-If a companion plugin is disabled, static vocabulary still completes. Live prefix, frontmatter keys, and dictionary folder fall back to Augur settings.
+If a companion plugin is disabled, static vocabulary still completes. Live prefix, frontmatter keys, dictionary folder, and **Epochs calendar ids** fall back to Augur settings / empty (no invented calendar ids when Epochs is unloaded).
+
+### Coverage boundaries
+
+Augur **does** suggest:
+
+- Writing Grimoire / Oculus / Visage / Lexicon syntax
+- Epochs **calendar ids** and date-string prefixes inside `q=` / `calendar:` YAML (when Epochs is loaded)
+- Static **Xiewer search language** tokens inside `XIEWER:` (mirrors CollectionXiewer’s `searchParser`; not live tag/collection names from a running app)
+
+Augur **does not** cover:
+
+- Creating or editing Epochs calendar notes (use Epochs commands / GUIDE)
+- NaviNote or System App Launcher authoring
+- Live Xiewer health / vault tag enumeration over the loopback API
+- Rendering galleries, cards, queries, or lexicon highlights
 
 ---
 

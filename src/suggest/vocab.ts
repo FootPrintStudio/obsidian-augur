@@ -58,6 +58,30 @@ export const OCULUS_VIEWS = ["grid", "thumbnails", "carousel", "masonry-h", "mas
 export const OCULUS_FILTERS = ["all", "images", "video"];
 export const OCULUS_SORTS = ["name ASC", "name DSC", "date ASC", "date DSC", "random"];
 
+/** Static CollectionXiewer searchParser operators (mirrors collectionxiewer/src/shared/searchParser.ts). */
+export const XIEWER_CLAUSES = [
+	{ label: "tag:", insert: "tag:", detail: "Media with tag (descendants included)" },
+	{ label: "-tag:", insert: "-tag:", detail: "Without tag" },
+	{ label: "suggested:", insert: "suggested:", detail: "Soft-linked suggestion tag" },
+	{ label: "collection:", insert: 'collection:"', detail: "Collection membership (quote names)" },
+	{ label: "principal:", insert: "principal:", detail: "Principal tag on a collection" },
+	{ label: "folder:", insert: 'folder:"', detail: "Under a watch-folder root" },
+	{ label: "name:", insert: "name:", detail: "Path/filename glob (* ?)" },
+	{ label: "wiki:", insert: 'wiki:"', detail: "Media wiki full-text" },
+	{ label: "wiki:empty", insert: "wiki:empty", detail: "Media with empty wiki" },
+	{ label: "untagged:", insert: "untagged:", detail: "Media with no tags" },
+	{ label: "kind:image", insert: "kind:image", detail: "Still images" },
+	{ label: "kind:motion", insert: "kind:motion", detail: "GIF / APNG motion" },
+	{ label: "kind:video", insert: "kind:video", detail: "Video files" },
+	{ label: "AND", insert: "AND", detail: "Boolean AND (optional; space is AND)" },
+	{ label: "OR", insert: "OR", detail: "Boolean OR" },
+	{ label: "NOT", insert: "NOT", detail: "Boolean NOT" },
+	{ label: "@subject", insert: "@subject", detail: "Same subject group on tag clauses" },
+	{ label: "@subject:2", insert: "@subject:2", detail: "Named subject group number" },
+] as const;
+
+export const XIEWER_KIND_VALUES = ["image", "motion", "video"] as const;
+
 export const VTABS_KEYS = ["POSITION:", "ALIGN:", "TAB:"];
 export const VTABS_POSITIONS = ["top", "bottom", "left", "right"];
 export const VTABS_ALIGNS = ["left", "right", "center", "justify"];

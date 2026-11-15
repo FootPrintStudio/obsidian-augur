@@ -13,10 +13,20 @@ Reload Obsidian after `bash build.sh`. Enable **Augur**. Companions can stay ena
 ## Suggestions
 
 - [ ] Inside `` `q= ` ``, functions and frontmatter keys appear
+- [ ] With Epochs enabled and calendars indexed, `` `q= ` `` offers `date("id:")` / calendar id snippets
+- [ ] Inside `` `q= date(" ` ``, calendar ids / `id:year-…` forms appear (empty when Epochs is off)
+- [ ] YAML `calendar:` / `cal:` under a fantasy date object suggests Epochs calendar ids
 - [ ] Inside an `oculus` fence, `VIEW` / `LOCAL` and media paths appear
+- [ ] On `XIEWER:` (and indented XIEWER lines), `tag:`, `kind:image`, `collection:`, booleans appear — not vault paths
 - [ ] After `` `v-card` ``, span/rows/layout/tone bags appear
 - [ ] In a Dictionary file, flags and `# Term {Plural}` appear
 - [ ] Under `lexicon-context:` in YAML, dictionary paths appear
+
+## Automated
+
+```bash
+node test/suggest-context.test.mjs
+```
 
 ## Companions
 
