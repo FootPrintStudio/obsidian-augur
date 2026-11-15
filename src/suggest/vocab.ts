@@ -44,6 +44,35 @@ export const GRIMOIRE_FUNCTIONS = [
 	{ label: "join()", insert: "join()", detail: "list, sep" },
 ] as const;
 
+/** Cross-note wiki / link-pass snippets (Grimoire 0.9.7+). No half `@` inserts. */
+export const GRIMOIRE_CROSS_NOTE = [
+	{
+		label: "[[Note]].field",
+		insert: "[[Note]].field",
+		detail: "Bare wiki page member (cross-note)",
+	},
+	{
+		label: "[[Note]].file.mtime",
+		insert: "[[Note]].file.mtime",
+		detail: "Cross-note file metadata",
+	},
+	{
+		label: "parent.title",
+		insert: "parent.title",
+		detail: "Link-valued property auto-pass",
+	},
+	{
+		label: "links.title[0]",
+		insert: "links.title[0]",
+		detail: "List-of-links field + index",
+	},
+	{
+		label: "links.title[0,1]",
+		insert: "links.title[0,1]",
+		detail: "List-of-links multi-index",
+	},
+] as const;
+
 export const GRIMOIRE_FILE_FIELDS = [
 	"file.name",
 	"file.path",
