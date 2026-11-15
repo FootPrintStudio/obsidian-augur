@@ -73,4 +73,58 @@ assert(cursorOffsetAfterInsert('date("aether:")') === 13, "cursor inside date st
 assert(cursorOffsetAfterInsert("AS card") === 7, "cursor at end of AS style");
 assert(cursorOffsetAfterInsert("kind:image") === 10, "cursor at end of kind value");
 
+/** Mirrors fenceAt in src/suggest/context.ts (innermost open fence). */
+function fenceAt(lines, cursorLine) {
+	const stack = [];
+	for (let i = 0; i <= cursorLine; i++) {
+		const line = lines[i] ?? "";
+		const match = /^(`{3,}|~{3,})([^\s`]*)\s*$/.exec(line);
+		if (!match?.[1]) continue;
+		const marker = match[1];
+		const lang = (match[2] ?? "").toLowerCase();
+		const top = stack[stack.length - 1];
+		if (top && marker[0] === top.marker[0] && marker.length >= top.marker.length && lang === "") {
+			stack.pop();
+			continue;
+		}
+		if (!top) {
+			stack.push({ marker, lang });
+			continue;
+		}
+		if (lang !== "") stack.push({ marker, lang });
+	}
+	const top = stack[stack.length - 1];
+	return top ? { lang: top.lang } : null;
+}
+
+const nestedTabs = [
+	"````v-tabs",
+	"TAB: Cards",
+	"- `v-card {span=2}` Host",
+	"```oculus",
+	"LOCAL:",
+	"```",
+	"Query: `q= title`",
+	"````",
+];
+
+assert(fenceAt(nestedTabs, 1)?.lang === "v-tabs", "v-tabs body is v-tabs");
+assert(fenceAt(nestedTabs, 3)?.lang === "oculus", "nested oculus inside v-tabs");
+assert(fenceAt(nestedTabs, 4)?.lang === "oculus", "inside nested oculus body");
+assert(fenceAt(nestedTabs, 6)?.lang === "v-tabs", "after nested oculus closes, back to v-tabs");
+assert(fenceAt(nestedTabs, 7) === null, "closed outer v-tabs");
+
+/** Prefer inline over parent v-tabs (Carl nesting). */
+function preferInlineOverVtabs(fenceLang, inlineKind) {
+	if (fenceLang === "oculus") return "oculus";
+	if (inlineKind) return inlineKind;
+	if (fenceLang === "v-tabs") return "vtabs";
+	return null;
+}
+
+assert(preferInlineOverVtabs("v-tabs", "vcard") === "vcard", "v-card inside v-tabs wins");
+assert(preferInlineOverVtabs("v-tabs", "grimoire") === "grimoire", "q= inside v-tabs wins");
+assert(preferInlineOverVtabs("oculus", "vcard") === "oculus", "innermost oculus wins over inline");
+assert(preferInlineOverVtabs("v-tabs", null) === "vtabs", "structural v-tabs when no inline");
+
 if (!process.exitCode) console.log("suggest-context.test.mjs: all passed");
