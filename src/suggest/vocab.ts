@@ -1,11 +1,31 @@
 export const GRIMOIRE_FUNCTIONS = [
 	{ label: "default()", insert: "default()", detail: "value, fallback" },
-	{ label: "choice()", insert: "choice()", detail: "cond, ifTrue, ifFalse" },
+	{
+		label: "choice()",
+		insert: "choice(cond, {ifTrue, ifFalse})",
+		detail: "cond, {ifTrue, ifFalse} — or {ifTrue} true-only",
+	},
 	{ label: "select()", insert: "select()", detail: "key, {k, v}, …" },
-	{ label: "any()", insert: "any()", detail: "value or hay, candidates" },
-	{ label: "exists()", insert: "exists()", detail: "value" },
-	{ label: "contains()", insert: "contains()", detail: "hay, needle" },
-	{ label: "econtains()", insert: "econtains()", detail: "hay, needle" },
+	{
+		label: "any()",
+		insert: "any(value, {ifTrue, ifFalse})",
+		detail: "value…, {ifTrue, ifFalse} — or boolean without brace",
+	},
+	{
+		label: "exists()",
+		insert: "exists(value, {ifTrue, ifFalse})",
+		detail: "value, {ifTrue, ifFalse} — or boolean without brace",
+	},
+	{
+		label: "contains()",
+		insert: "contains({hay, needle}, {ifTrue, ifFalse})",
+		detail: "{hay, needle}, {ifTrue, ifFalse}",
+	},
+	{
+		label: "econtains()",
+		insert: "econtains({hay, needle}, {ifTrue, ifFalse})",
+		detail: "{hay, needle}, {ifTrue, ifFalse}",
+	},
 	{ label: "slice()", insert: "slice()", detail: "list, start, end?" },
 	{ label: "dateformat()", insert: "dateformat()", detail: "date, format" },
 	{ label: "durationformat()", insert: "durationformat()", detail: "dur, format?" },
