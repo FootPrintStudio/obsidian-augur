@@ -18,6 +18,7 @@ Reload Obsidian after `bash build.sh`. Enable **Augur**. Companions can stay ena
 - [ ] YAML `calendar:` / `cal:` under a fantasy date object suggests Epochs calendar ids
 - [ ] Inside an `oculus` fence, `VIEW` / `LOCAL` and media paths appear
 - [ ] On `XIEWER:` (and indented XIEWER lines), `tag:`, `kind:image`, `collection:`, booleans appear — not vault paths
+- [ ] Accepting a suggestion leaves the cursor after the insert (inside `()` / before `date("…")` close when applicable) — not at the start
 - [ ] After `` `v-card` ``, span/rows/layout/tone bags appear
 - [ ] In a Dictionary file, flags and `# Term {Plural}` appear
 - [ ] Under `lexicon-context:` in YAML, dictionary paths appear

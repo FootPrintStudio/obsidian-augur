@@ -32,6 +32,17 @@ function matches(query: string, label: string): boolean {
 	return label.toLowerCase().includes(query.toLowerCase());
 }
 
+/**
+ * Cursor offset from the start of an inserted suggestion for continued typing.
+ * Empty `()` → inside parens; `date("id:")` → before closing `")`; else end.
+ */
+export function cursorOffsetAfterInsert(insert: string): number {
+	const emptyParen = insert.indexOf("()");
+	if (emptyParen !== -1) return emptyParen + 1;
+	if (insert.endsWith('")')) return insert.length - 2;
+	return insert.length;
+}
+
 export class AugurEditorSuggest extends EditorSuggest<AugurSuggestion> {
 	private settings: () => AugurSettings;
 	private latestKind: SuggestKind = "oculus-key";
@@ -116,7 +127,10 @@ export class AugurEditorSuggest extends EditorSuggest<AugurSuggestion> {
 	selectSuggestion(value: AugurSuggestion, _evt: MouseEvent | KeyboardEvent): void {
 		const context = this.context;
 		if (!context) return;
-		context.editor.replaceRange(value.insert, context.start, context.end);
+		const { editor, start, end } = context;
+		editor.replaceRange(value.insert, start, end);
+		const ch = start.ch + cursorOffsetAfterInsert(value.insert);
+		editor.setCursor({ line: start.line, ch });
 	}
 
 	private pushEpochsCalendars(

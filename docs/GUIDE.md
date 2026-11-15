@@ -56,6 +56,8 @@ This replaces Path Picker for Oculus authoring. It does not browse the OS filesy
 
 If a companion plugin is disabled, static vocabulary still completes. Live prefix, frontmatter keys, dictionary folder, and **Epochs calendar ids** fall back to Augur settings / empty (no invented calendar ids when Epochs is unloaded).
 
+Accepting a suggestion places the caret for continued typing: after the insert, inside empty `()` (Grimoire functions), or before the closing `")` on `date("id:")` stubs.
+
 ### Coverage boundaries
 
 Augur **does** suggest:

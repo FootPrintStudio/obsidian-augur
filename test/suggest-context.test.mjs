@@ -59,4 +59,18 @@ assert(parentOculusMediaKey(["XIEWER: a", "VIEW"], 1) === null, "incomplete top-
 assert(parentOculusMediaKey(["VIEW: grid", "\tArt/"], 1) === null, "indented under non-media");
 assert(keyValue("XIEWER: tag:hero kind:image")?.key === "XIEWER", "parse XIEWER key");
 
+/** Mirrors cursorOffsetAfterInsert in src/suggest/editorSuggest.ts */
+function cursorOffsetAfterInsert(insert) {
+	const emptyParen = insert.indexOf("()");
+	if (emptyParen !== -1) return emptyParen + 1;
+	if (insert.endsWith('")')) return insert.length - 2;
+	return insert.length;
+}
+
+assert(cursorOffsetAfterInsert("tag:") === 4, "cursor at end of tag:");
+assert(cursorOffsetAfterInsert("default()") === 8, "cursor inside default()");
+assert(cursorOffsetAfterInsert('date("aether:")') === 13, "cursor inside date stub before quote close");
+assert(cursorOffsetAfterInsert("AS card") === 7, "cursor at end of AS style");
+assert(cursorOffsetAfterInsert("kind:image") === 10, "cursor at end of kind value");
+
 if (!process.exitCode) console.log("suggest-context.test.mjs: all passed");
