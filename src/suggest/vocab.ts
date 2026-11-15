@@ -91,6 +91,11 @@ export const GRIMOIRE_CROSS_NOTE = [
 		insert: '@({from("*")}, {exists(title)}, {title})',
 		detail: "Vault-wide from(*) — prefer folder scope",
 	},
+	{
+		label: "@ map AS pill",
+		insert: '@({from("Characters")}, {any(status)}, {(status AS pill)})',
+		detail: "Per-page AS style in map brace",
+	},
 ] as const;
 
 export const GRIMOIRE_FILE_FIELDS = [
