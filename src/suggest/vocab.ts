@@ -35,7 +35,7 @@ export const GRIMOIRE_FUNCTIONS = [
 	{
 		label: "inRange()",
 		insert: "inRange({value, low, high}, {below, inBand, above})",
-		detail: "{value, low, high}, {below, in, above}",
+		detail: "number | date | duration → {below, in, above}",
 	},
 	{ label: "date()", insert: "date()", detail: "string | now | today" },
 	{ label: "dur()", insert: "dur()", detail: "n, unit or text" },
