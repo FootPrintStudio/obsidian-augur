@@ -2,18 +2,21 @@ import type { Editor, EditorPosition } from "obsidian";
 
 export type SuggestKind =
 	| "grimoire"
+	| "grimoire-date"
 	| "oculus-key"
 	| "oculus-view"
 	| "oculus-filter"
 	| "oculus-sort"
 	| "oculus-path"
+	| "oculus-xiewer"
 	| "vtabs-key"
 	| "vtabs-position"
 	| "vtabs-align"
 	| "vtabs-tab-tone"
 	| "vcard"
 	| "lexicon-dict"
-	| "lexicon-context";
+	| "lexicon-context"
+	| "epochs-calendar";
 
 export interface SuggestTrigger {
 	kind: SuggestKind;
@@ -21,6 +24,8 @@ export interface SuggestTrigger {
 	end: EditorPosition;
 	query: string;
 }
+
+const MEDIA_KEYS = new Set(["LOCAL", "SEARCH", "URL", "XIEWER"]);
 
 function fenceAt(editor: Editor, cursor: EditorPosition): { lang: string } | null {
 	let open: { marker: string; lang: string } | null = null;
@@ -99,6 +104,31 @@ function currentYamlKey(editor: Editor, cursor: EditorPosition): string | null {
 	return null;
 }
 
+/** Parent LOCAL/SEARCH/URL/XIEWER key for the current oculus line (including indented continuations). */
+export function parentOculusMediaKey(editor: Editor, cursor: EditorPosition): string | null {
+	const line = editor.getLine(cursor.line);
+	const current = keyValue(line);
+	if (current && MEDIA_KEYS.has(current.key)) return current.key;
+	// Incomplete top-level keys (e.g. typing "XIEW") must not inherit a prior media key.
+	if (!isIndented(line)) return null;
+
+	for (let i = cursor.line - 1; i >= 0; i--) {
+		const prev = editor.getLine(i);
+		if (!prev.trim()) continue;
+		if (isIndented(prev)) continue;
+		const kv = keyValue(prev);
+		if (!kv) return null;
+		if (MEDIA_KEYS.has(kv.key)) return kv.key;
+		return null;
+	}
+	return null;
+}
+
+/** True when the cursor sits inside an open date("… string in a Grimoire inline. */
+export function inGrimoireDateString(inlineTextBeforeCursor: string): boolean {
+	return /date\s*\(\s*"[^"]*$/i.test(inlineTextBeforeCursor);
+}
+
 export function detectSuggestTrigger(
 	editor: Editor,
 	cursor: EditorPosition,
@@ -121,10 +151,17 @@ export function detectSuggestTrigger(
 			const q = queryFrom(line, cursor.ch);
 			return { kind: "oculus-sort", start: { line: cursor.line, ch: q.startCh }, end: cursor, query: q.query };
 		}
-		if (kv?.key === "LOCAL" || kv?.key === "SEARCH" || isIndented(line)) {
+
+		const mediaKey = parentOculusMediaKey(editor, cursor);
+		if (mediaKey === "XIEWER") {
+			const q = queryFrom(line, cursor.ch);
+			return { kind: "oculus-xiewer", start: { line: cursor.line, ch: q.startCh }, end: cursor, query: q.query };
+		}
+		if (mediaKey === "LOCAL" || mediaKey === "SEARCH") {
 			const q = queryFrom(line, cursor.ch);
 			return { kind: "oculus-path", start: { line: cursor.line, ch: q.startCh }, end: cursor, query: q.query };
 		}
+
 		const q = queryFrom(line, cursor.ch);
 		return { kind: "oculus-key", start: { line: cursor.line, ch: q.startCh }, end: cursor, query: q.query };
 	}
@@ -152,6 +189,18 @@ export function detectSuggestTrigger(
 		const prefix = options.grimoirePrefix;
 		if (inline.text.startsWith(prefix) || prefix.startsWith(inline.text)) {
 			const afterPrefix = Math.max(inline.startCh + prefix.length, inline.startCh);
+			const beforeCursor = line.slice(inline.startCh, cursor.ch);
+			const exprBefore = beforeCursor.startsWith(prefix) ? beforeCursor.slice(prefix.length) : beforeCursor;
+			if (inGrimoireDateString(exprBefore)) {
+				const quoteAt = line.lastIndexOf('"', cursor.ch - 1);
+				const startCh = quoteAt >= afterPrefix ? quoteAt + 1 : Math.min(Math.max(afterPrefix, queryFrom(line, cursor.ch).startCh), cursor.ch);
+				return {
+					kind: "grimoire-date",
+					start: { line: cursor.line, ch: startCh },
+					end: cursor,
+					query: line.slice(startCh, cursor.ch),
+				};
+			}
 			const startCh = Math.min(Math.max(afterPrefix, queryFrom(line, cursor.ch).startCh), cursor.ch);
 			return {
 				kind: "grimoire",
@@ -180,6 +229,10 @@ export function detectSuggestTrigger(
 		if (key === "lexicon-context" || key === "def-context") {
 			const q = queryFrom(line, cursor.ch);
 			return { kind: "lexicon-context", start: { line: cursor.line, ch: q.startCh }, end: cursor, query: q.query };
+		}
+		if (key === "calendar" || key === "cal") {
+			const q = queryFrom(line, cursor.ch);
+			return { kind: "epochs-calendar", start: { line: cursor.line, ch: q.startCh }, end: cursor, query: q.query };
 		}
 	}
 
