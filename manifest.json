@@ -1,7 +1,7 @@
 {
 	"id": "augur",
 	"name": "Augur",
-	"version": "0.1.14",
+	"version": "0.1.15",
 	"minAppVersion": "1.5.0",
 	"description": "Authoring companion for Grimoire, Oculus, Visage, Lexicon Nexus, Epochs calendar ids, and XIEWER query vocabulary.",
 	"author": "FootPrintStudio",

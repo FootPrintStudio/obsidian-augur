@@ -44,7 +44,7 @@ export const GRIMOIRE_FUNCTIONS = [
 	{ label: "join()", insert: "join()", detail: "list, sep" },
 ] as const;
 
-/** Cross-note wiki / link-pass snippets (Grimoire 0.9.7+). No half `@` inserts. */
+/** Cross-note wiki / link-pass / `@` snippets (Grimoire 0.9.7+ / 0.9.8+). */
 export const GRIMOIRE_CROSS_NOTE = [
 	{
 		label: "[[Note]].field",
@@ -70,6 +70,26 @@ export const GRIMOIRE_CROSS_NOTE = [
 		label: "links.title[0,1]",
 		insert: "links.title[0,1]",
 		detail: "List-of-links multi-index",
+	},
+	{
+		label: '@({from("Folder")})',
+		insert: '@({from("Folder")})',
+		detail: "Multi-note from folder (quoted path)",
+	},
+	{
+		label: '@({from("Folder")}, {!this.file})',
+		insert: '@({from("Folder")}, {!this.file, exists(title)})',
+		detail: "Where brace with !this.file exclude",
+	},
+	{
+		label: "@({from}, {where}, {map})",
+		insert: '@({from("Folder")}, {!this.file}, {this.file.name + " → " + title})',
+		detail: "from + where + map (this = source)",
+	},
+	{
+		label: '@({from("*")})',
+		insert: '@({from("*")}, {exists(title)}, {title})',
+		detail: "Vault-wide from(*) — prefer folder scope",
 	},
 ] as const;
 
