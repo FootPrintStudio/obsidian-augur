@@ -1,5 +1,5 @@
 import { App, EditorSuggest, TAbstractFile, TFile, TFolder, type Editor, type EditorPosition, type EditorSuggestContext, type EditorSuggestTriggerInfo } from "obsidian";
-import { frontmatterKeys, resolveGrimoirePrefix, resolveLexiconFolder } from "../companions";
+import { frontmatterKeys, listEpochsCalendars, resolveGrimoirePrefix, resolveLexiconFolder } from "../companions";
 import { MEDIA_EXTENSIONS, type AugurSettings } from "../types";
 import { detectSuggestTrigger, type SuggestKind } from "./context";
 import {
@@ -17,6 +17,8 @@ import {
 	VTABS_KEYS,
 	VTABS_POSITIONS,
 	VTABS_TONE_BAGS,
+	XIEWER_CLAUSES,
+	XIEWER_KIND_VALUES,
 } from "./vocab";
 
 export interface AugurSuggestion {
@@ -28,6 +30,17 @@ export interface AugurSuggestion {
 function matches(query: string, label: string): boolean {
 	if (!query) return true;
 	return label.toLowerCase().includes(query.toLowerCase());
+}
+
+/**
+ * Cursor offset from the start of an inserted suggestion for continued typing.
+ * Empty `()` → inside parens; `date("id:")` → before closing `")`; else end.
+ */
+export function cursorOffsetAfterInsert(insert: string): number {
+	const emptyParen = insert.indexOf("()");
+	if (emptyParen !== -1) return emptyParen + 1;
+	if (insert.endsWith('")')) return insert.length - 2;
+	return insert.length;
 }
 
 export class AugurEditorSuggest extends EditorSuggest<AugurSuggestion> {
@@ -61,6 +74,7 @@ export class AugurEditorSuggest extends EditorSuggest<AugurSuggestion> {
 		};
 
 		if (kind === "grimoire") {
+			this.pushEpochsCalendars(push, "snippet");
 			for (const fn of GRIMOIRE_FUNCTIONS) push(fn.label, fn.insert, fn.detail);
 			for (const field of GRIMOIRE_FILE_FIELDS) push(field);
 			for (const key of frontmatterKeys(this.app, context.file)) push(key);
@@ -69,6 +83,8 @@ export class AugurEditorSuggest extends EditorSuggest<AugurSuggestion> {
 			} else {
 				for (const style of GRIMOIRE_STYLES) push(style, `AS ${style}`, "display style");
 			}
+		} else if (kind === "grimoire-date" || kind === "epochs-calendar") {
+			this.pushEpochsCalendars(push, kind === "grimoire-date" ? "date-string" : "id-only");
 		} else if (kind === "oculus-key") {
 			for (const key of OCULUS_KEYS) push(key);
 		} else if (kind === "oculus-view") {
@@ -79,6 +95,8 @@ export class AugurEditorSuggest extends EditorSuggest<AugurSuggestion> {
 			for (const sort of OCULUS_SORTS) push(sort);
 		} else if (kind === "oculus-path") {
 			items.push(...this.vaultPathSuggestions(query, true));
+		} else if (kind === "oculus-xiewer") {
+			this.pushXiewerSuggestions(push, query);
 		} else if (kind === "vtabs-key") {
 			for (const key of VTABS_KEYS) push(key);
 		} else if (kind === "vtabs-position") {
@@ -109,7 +127,53 @@ export class AugurEditorSuggest extends EditorSuggest<AugurSuggestion> {
 	selectSuggestion(value: AugurSuggestion, _evt: MouseEvent | KeyboardEvent): void {
 		const context = this.context;
 		if (!context) return;
-		context.editor.replaceRange(value.insert, context.start, context.end);
+		const { editor, start, end } = context;
+		editor.replaceRange(value.insert, start, end);
+		const ch = start.ch + cursorOffsetAfterInsert(value.insert);
+		editor.setCursor({ line: start.line, ch });
+	}
+
+	private pushEpochsCalendars(
+		push: (label: string, insert?: string, detail?: string) => void,
+		mode: "snippet" | "date-string" | "id-only",
+	): void {
+		for (const cal of listEpochsCalendars(this.app)) {
+			const form = cal.hasMonths ? `${cal.id}:year-month-day` : `${cal.id}:year-day`;
+			const detail = cal.path ? `${cal.name} · ${cal.path}` : cal.name;
+			if (mode === "id-only") {
+				push(cal.id, cal.id, detail);
+				continue;
+			}
+			if (mode === "date-string") {
+				push(`${cal.id}:`, `${cal.id}:`, `${detail} — then ${cal.hasMonths ? "year-month-day" : "year-day"}`);
+				push(form, form, detail);
+				continue;
+			}
+			push(`date("${cal.id}:…")`, `date("${cal.id}:")`, detail);
+			push(cal.id, cal.id, `calendar id · ${detail}`);
+		}
+	}
+
+	private pushXiewerSuggestions(
+		push: (label: string, insert?: string, detail?: string) => void,
+		query: string,
+	): void {
+		const lower = query.toLowerCase();
+		const kindPrefix = /^(-)?kind:(.*)$/i.exec(query);
+		if (kindPrefix) {
+			const neg = kindPrefix[1] ?? "";
+			const partial = (kindPrefix[2] ?? "").toLowerCase();
+			for (const kind of XIEWER_KIND_VALUES) {
+				if (partial && !kind.startsWith(partial)) continue;
+				push(`${neg}kind:${kind}`, `${neg}kind:${kind}`, "Xiewer media kind");
+			}
+			return;
+		}
+		if (lower === "kind" || lower === "kind:") {
+			for (const kind of XIEWER_KIND_VALUES) push(`kind:${kind}`, `kind:${kind}`, "Xiewer media kind");
+			return;
+		}
+		for (const clause of XIEWER_CLAUSES) push(clause.label, clause.insert, clause.detail);
 	}
 
 	private vaultPathSuggestions(query: string, mediaOnly: boolean): AugurSuggestion[] {
