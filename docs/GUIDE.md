@@ -49,7 +49,8 @@ This replaces Path Picker for Oculus authoring. It does not browse the OS filesy
 | YAML `calendar:` / `cal:` | Epochs calendar ids (fantasy date frontmatter) |
 | ` ```oculus ` | `VIEW` `FILTER` `LIMIT` `SORT` `LOCAL` `URL` `SEARCH` `XIEWER`, view/filter/sort values, vault media paths |
 | `XIEWER:` (and indented XIEWER lines) | CollectionXiewer search operators: `tag:`, `-tag:`, `kind:image\|motion\|video`, `collection:`, `suggested:`, `principal:`, `folder:`, `name:`, `untagged:`, `AND`/`OR`/`NOT`, `@subject` (no `wiki:` — removed with Xiewer wiki) |
-| `v-tabs` fence | `POSITION` `ALIGN` `TAB` and enums |
+| `v-tabs` fence | `POSITION` `ALIGN` `TAB` and enums (structural lines only) |
+| Nested inside `v-tabs` | Innermost fence wins (` ```oculus ` → Oculus keys); `` `v-card` `` / `` `q=` `` in tab bodies use card / Grimoire suggest (not parent `v-tabs`) |
 | List `` `v-card` `` | `{span=…}` `{rows=…}` `{layout=…}` `{tone=…}` `{border=…}` |
 | Lexicon dictionary folder | Header / alias templates and requirement flags |
 | YAML `lexicon-context:` | Paths under the dictionary folder |
