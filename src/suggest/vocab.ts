@@ -1,23 +1,106 @@
 export const GRIMOIRE_FUNCTIONS = [
 	{ label: "default()", insert: "default()", detail: "value, fallback" },
-	{ label: "choice()", insert: "choice()", detail: "cond, ifTrue, ifFalse" },
+	{
+		label: "choice()",
+		insert: "choice(cond, {ifTrue, ifFalse})",
+		detail: "cond, {ifTrue, ifFalse} — or {ifTrue} true-only",
+	},
 	{ label: "select()", insert: "select()", detail: "key, {k, v}, …" },
-	{ label: "any()", insert: "any()", detail: "value or hay, candidates" },
-	{ label: "exists()", insert: "exists()", detail: "value" },
-	{ label: "contains()", insert: "contains()", detail: "hay, needle" },
-	{ label: "econtains()", insert: "econtains()", detail: "hay, needle" },
+	{
+		label: "any()",
+		insert: "any(value, {ifTrue, ifFalse})",
+		detail: "value…, {ifTrue, ifFalse} — or boolean without brace",
+	},
+	{
+		label: "exists()",
+		insert: "exists(value, {ifTrue, ifFalse})",
+		detail: "value, {ifTrue, ifFalse} — or boolean without brace",
+	},
+	{
+		label: "contains()",
+		insert: "contains({hay, needle}, {ifTrue, ifFalse})",
+		detail: "{hay, needle}, {ifTrue, ifFalse}",
+	},
+	{
+		label: "econtains()",
+		insert: "econtains({hay, needle}, {ifTrue, ifFalse})",
+		detail: "{hay, needle}, {ifTrue, ifFalse}",
+	},
 	{ label: "slice()", insert: "slice()", detail: "list, start, end?" },
 	{ label: "dateformat()", insert: "dateformat()", detail: "date, format" },
 	{ label: "durationformat()", insert: "durationformat()", detail: "dur, format?" },
 	{ label: "age()", insert: "age()", detail: "date, format?" },
 	{ label: "numberformat()", insert: "numberformat()", detail: "n, pattern" },
 	{ label: "conv()", insert: "conv()", detail: "value, fromUnit, toUnit" },
-	{ label: "inRange()", insert: "inRange()", detail: "value, low, high" },
+	{
+		label: "inRange()",
+		insert: "inRange({value, low, high}, {below, inBand, above})",
+		detail: "number | date | duration → {below, in, above}",
+	},
 	{ label: "date()", insert: "date()", detail: "string | now | today" },
 	{ label: "dur()", insert: "dur()", detail: "n, unit or text" },
 	{ label: "length()", insert: "length()", detail: "value" },
 	{ label: "coalesce()", insert: "coalesce()", detail: "a, b, …" },
 	{ label: "join()", insert: "join()", detail: "list, sep" },
+	{ label: "lower()", insert: "lower()", detail: "string → lowercase" },
+	{ label: "upper()", insert: "upper()", detail: "string → uppercase" },
+	{ label: "replace()", insert: "replace()", detail: "hay, needle, replacement" },
+	{ label: "round()", insert: "round()", detail: "n, digits?" },
+	{ label: "abs()", insert: "abs()", detail: "n" },
+] as const;
+
+/** Cross-note wiki / link-pass / `@` snippets (Grimoire 0.9.7+ / 0.9.8+). */
+export const GRIMOIRE_CROSS_NOTE = [
+	{
+		label: "[[Note]].field",
+		insert: "[[Note]].field",
+		detail: "Bare wiki page member (cross-note)",
+	},
+	{
+		label: "[[Note]].file.mtime",
+		insert: "[[Note]].file.mtime",
+		detail: "Cross-note file metadata",
+	},
+	{
+		label: "parent.title",
+		insert: "parent.title",
+		detail: "Link-valued property auto-pass",
+	},
+	{
+		label: "links.title[0]",
+		insert: "links.title[0]",
+		detail: "List-of-links field + index",
+	},
+	{
+		label: "links.title[0,1]",
+		insert: "links.title[0,1]",
+		detail: "List-of-links multi-index",
+	},
+	{
+		label: '@({from("Folder")})',
+		insert: '@({from("Folder")})',
+		detail: "Multi-note from folder (quoted path)",
+	},
+	{
+		label: '@({from("Folder")}, {!this.file})',
+		insert: '@({from("Folder")}, {!this.file, exists(title)})',
+		detail: "Where brace with !this.file exclude",
+	},
+	{
+		label: "@({from}, {where}, {map})",
+		insert: '@({from("Folder")}, {!this.file}, {this.file.name + " → " + title})',
+		detail: "from + where + map (this = source)",
+	},
+	{
+		label: '@({from("*")})',
+		insert: '@({from("*")}, {exists(title)}, {title})',
+		detail: "Vault-wide from(*) — prefer folder scope",
+	},
+	{
+		label: "@ map AS pill",
+		insert: '@({from("Characters")}, {any(status)}, {(status AS pill)})',
+		detail: "Per-page AS style in map brace",
+	},
 ] as const;
 
 export const GRIMOIRE_FILE_FIELDS = [
