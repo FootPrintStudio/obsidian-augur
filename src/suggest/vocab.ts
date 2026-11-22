@@ -42,6 +42,11 @@ export const GRIMOIRE_FUNCTIONS = [
 	{ label: "length()", insert: "length()", detail: "value" },
 	{ label: "coalesce()", insert: "coalesce()", detail: "a, b, …" },
 	{ label: "join()", insert: "join()", detail: "list, sep" },
+	{ label: "lower()", insert: "lower()", detail: "string → lowercase" },
+	{ label: "upper()", insert: "upper()", detail: "string → uppercase" },
+	{ label: "replace()", insert: "replace()", detail: "hay, needle, replacement" },
+	{ label: "round()", insert: "round()", detail: "n, digits?" },
+	{ label: "abs()", insert: "abs()", detail: "n" },
 ] as const;
 
 /** Cross-note wiki / link-pass / `@` snippets (Grimoire 0.9.7+ / 0.9.8+). */
